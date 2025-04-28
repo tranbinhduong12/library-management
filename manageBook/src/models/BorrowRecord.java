@@ -3,30 +3,30 @@ package models;
 import java.time.LocalDate;
 
 public class BorrowRecord {
-    private String bookId;
-    private String userId;
+    private User user;
+    private Book book;
     private LocalDate borrowDate;
 
-    public BorrowRecord(String bookId, String userId, LocalDate borrowDate) {
-        this.bookId = bookId;
-        this.userId = userId;
-        this.borrowDate = borrowDate;
+    public BorrowRecord(User user, Book book) {
+        this.user = user;
+        this.book = book;
+        this.borrowDate = LocalDate.now();
     }
 
-    public String getBookId() {
-        return bookId;
+    public User getUser() {
+        return user;
     }
 
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getUserId() {
-        return userId;
+    public Book getBook() {
+        return book;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     public LocalDate getBorrowDate() {
@@ -39,10 +39,6 @@ public class BorrowRecord {
 
     @Override
     public String toString() {
-        return "BorrowRecord{" +
-                "bookId='" + bookId +
-                ", userId='" + userId +
-                ", borrowDate=" + borrowDate +
-                '}';
+        return user.getName() + " đang mượn sách \"" + book.getTitle() + "\" từ ngày " + borrowDate;
     }
 }

@@ -13,8 +13,8 @@ public class BookService {
     }
 
     public void listBook() {
-        for (Book book : books) {
-            System.out.println(book);
+        for (Book b : books) {
+            System.out.println(b);
         }
     }
 
@@ -57,6 +57,15 @@ public class BookService {
         if (!found) {
             System.out.println("can not find book with keyword: " + keyword);
         }
+    }
+
+    public Book findById(String id) {
+        for (Book book : books) {
+            if (book.getId().equals(id)) {
+                return book;
+            }
+        }
+        return null;
     }
 
 }

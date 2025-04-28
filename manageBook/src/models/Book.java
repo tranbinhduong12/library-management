@@ -5,12 +5,13 @@ public class Book {
     private String title;
     private String author;
     private boolean isBorrowed;
+    private int quantity;
 
-    public Book(String id, String title, String author) {
+    public Book(String id, String title, String author, int quantity) {
         this.id = id;
         this.title = title;
         this.author = author;
-        this.isBorrowed = false;
+        this.quantity = quantity;
     }
 
     public String getId() {
@@ -41,12 +42,34 @@ public class Book {
         isBorrowed = borrowed;
     }
 
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    // ktra còn sách k
+    public boolean isAvailable() {
+        return quantity > 0; // còn sách thì có thể mượn
+    }
+
+    // giảm số lượng sách khi mượn
+    public void borrow() {
+        if (quantity > 0) {
+            quantity--;
+        }
+    }
+
+    // tăng số lượng sách khi trả lại
+    public void returnBook() {
+        quantity++;
+    }
+
     @Override
     public String toString() {
-        return "Book: " +
-                "id=" + id +
-                ", title=" + title +
-                ", author=" + author +
-                ", isBorrowed=" + isBorrowed;
+        return "Book{id='" + id + "', title='" + title + "', quantity=" + quantity + "}";
     }
 }

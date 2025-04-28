@@ -6,69 +6,63 @@ import java.util.List;
 import models.*;
 
 public class BorrowService {
-    private List<BorrowRecord> records = new ArrayList<>();
-    private List<Book> books;
-    private List<User> users;
+    private List<BorrowRecord> borrowRecors;
+    private BookService bookService;
+    private UserService userService;
 
 
-    public BorrowService(List<Book> books, List<User> users) {
-        this.books = books;
-        this.users = users;
+    public BorrowService( UserService userService, BookService bookService, List<BorrowRecord> borrowRecors) {
+        this.userService = userService;
+        this.bookService = bookService;
+        this.borrowRecors = borrowRecors;
     }
 
+    // Mượn sách
     public void borrowBook(String userId, String bookId) {
-        // find user
-        User u = findUserById(userId);
-        if (u == null) {
-            System.out.println(" can not find user with id: " + userId);
-            return;
-        }
+        // find book and user
+        User user = userService.findById(userId);
+        Book book = bookService.findById(bookId);
 
-        // find book
-        Book book = findBookById(bookId);
-        if (book == null) {
-            System.out.println("can not find book with id: " + bookId);
-            return;
-        }
+        if (user != null && book != null) {
+            if (book.isAvailable()) {
+                BorrowRecord borrowRecord = new BorrowRecord(user, book);
+                borrowRecors.add(borrowRecord);
 
-        // check book borrowed
-        if (book.isBorrowed()) {
-            System.out.println("book borrowed");
-            return;
-        }
-
-        // tạo record và đánh dấu sách đã mượn
-        BorrowRecord record = new BorrowRecord(bookId, userId, LocalDate.now());
-        records.add(record);
-        book.setBorrow(true);
-        System.out.println("borrow success: " + book.getTitle());
-    }
-
-    public void listBorrowRecods() {
-        if (records.isEmpty()) {
-            System.out.println("chua cos luot muon sach");
+                book.borrow();// cập nhật số lượng sách
+                System.out.println("borrow success: " + book.getTitle());
+            } else {
+                System.out.println("sách đã hết");
+            }
         } else {
-            for (BorrowRecord br : records) {
-                System.out.println(br);
-            }
+            System.out.println("can not find user with id: " + userId);
         }
     }
 
-    private Book findBookById(String id) {
-        for (Book book : books) {
-            if(book.getId().equals(id)) {
-                return book;
+    // Trả sách
+    public void returnBook(String userId, String bookId) {
+        // tìm bản ghi mượn
+        BorrowRecord borrowRecordReturn = null;
+        for (BorrowRecord record : borrowRecors) {
+            if (record.getUser().getId().equals(userId) && record.getBook().getId().equals(bookId)) {
+                borrowRecordReturn = record;
+                break;
             }
         }
-        return null;
+
+        if (borrowRecordReturn != null) {
+            // xóa bản ghi mượn và cập nhật sách
+            borrowRecors.remove(borrowRecordReturn);
+            borrowRecordReturn.getBook().returnBook();// trả lại sách
+            System.out.println("sách đã được trả" + borrowRecordReturn.getBook().getTitle());
+        } else {
+            System.out.println("không tìm thấy barn ghi mượn sách này");
+        }
     }
 
-    private User findUserById(String id) {
-        for (User u : users) {
-            if(u.getId().equalsIgnoreCase(id)) {
-                return u;
-            }
+    // lọc sách đã mượn
+    public void listBorrowBooks() {
+        for (BorrowRecord record : borrowRecors) {
+            System.out.println("User: " + record.getUser().getName() + "| Book: " + record.getBook().getTitle());
         }
-        return null;
     }
 }

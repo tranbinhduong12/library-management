@@ -1,13 +1,18 @@
 import models.Book;
+import models.BorrowRecord;
 import models.User;
 import services.*;
 import utils.InputUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         BookService bookService = new BookService();
         UserService userService = new UserService();
-        BorrowService borrowService = new BorrowService(bookService.getBook(), userService.getUsers());
+        List<BorrowRecord> borrowRecords = new ArrayList<>();
+        BorrowService borrowService = new BorrowService(userService, bookService, borrowRecords);
 
         while (true) {
             showMenu();
@@ -18,7 +23,8 @@ public class Main {
                     String id = InputUtils.getString("Input book id");
                     String title = InputUtils.getString("input title");
                     String author = InputUtils.getString("input author");
-                    bookService.addBook(new Book(id, title, author));
+                    int quantity = InputUtils.getInt("input quantity");
+                    bookService.addBook(new Book(id, title, author, quantity));
                     break;
 
                 case 2:
@@ -59,7 +65,12 @@ public class Main {
                     break;
 
                 case 9:
-                    borrowService.listBorrowRecods();
+                    borrowService.listBorrowBooks();
+                    break;
+                case 10:
+                    String returnUserId = InputUtils.getString("Input user id");
+                    String returnBookId = InputUtils.getString("Input book Id");
+                    borrowService.returnBook(returnUserId, returnBookId);
                     break;
 
                 case 0:
@@ -84,6 +95,7 @@ public class Main {
         System.out.println("7. List users");
         System.out.println("8. Borrow book");
         System.out.println("9. History borrow books");
+        System.out.println("10. Return book");
         System.out.println("0. Exit");
         System.out.println("------------------------");
     }
