@@ -53,16 +53,16 @@ public class BorrowService {
             // xóa bản ghi mượn và cập nhật sách
             borrowRecors.remove(borrowRecordReturn);
             borrowRecordReturn.getBook().returnBook();// trả lại sách
-            System.out.println("sách đã được trả" + borrowRecordReturn.getBook().getTitle());
+            System.out.println("sách đã được trả " + borrowRecordReturn.getBook().getTitle());
         } else {
-            System.out.println("không tìm thấy barn ghi mượn sách này");
+            System.out.println("không tìm thấy bản ghi mượn sách này");
         }
     }
 
     // lọc sách đã mượn
     public void listBorrowBooks() {
         for (BorrowRecord record : borrowRecors) {
-            System.out.println("User: " + record.getUser().getName() + "| Book: " + record.getBook().getTitle());
+            System.out.println(record);
         }
     }
 }

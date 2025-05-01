@@ -3,6 +3,7 @@ import models.BorrowRecord;
 import models.User;
 import services.*;
 import utils.InputUtils;
+import utils.InputValidatorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,10 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    String id = InputUtils.getString("Input book id");
-                    String title = InputUtils.getString("input title");
-                    String author = InputUtils.getString("input author");
-                    int quantity = InputUtils.getInt("input quantity");
+                    String id = InputValidatorUtils.getValidId("Input book id");
+                    String title = InputValidatorUtils.getValidTitle("input title");
+                    String author = InputValidatorUtils.getValidAuthor("input author");
+                    int quantity = InputValidatorUtils.getValidQuantity("input quantity");
                     bookService.addBook(new Book(id, title, author, quantity));
                     break;
 
@@ -36,9 +37,9 @@ public class Main {
                     break;
 
                 case 4:
-                    String updateId = InputUtils.getString("input book Id");
-                    String newTitle = InputUtils.getString("Input new title");
-                    String newAuthor = InputUtils.getString("Input new author");
+                    String updateId = InputValidatorUtils.getValidId("input book Id");
+                    String newTitle = InputValidatorUtils.getValidTitle("Input new title");
+                    String newAuthor = InputValidatorUtils.getValidAuthor("Input new author");
                     bookService.updateBook(updateId, newTitle, newAuthor);
                     break;
 
@@ -48,9 +49,9 @@ public class Main {
                     break;
 
                 case 6:
-                    String userId = InputUtils.getString("Input id user");
-                    String name = InputUtils.getString("Input user name");
-                    String email = InputUtils.getString("Input email");
+                    String userId = InputValidatorUtils.getValidId("Input id user");
+                    String name = InputValidatorUtils.getValidName("Input user name");
+                    String email = InputValidatorUtils.getValidEmail("Input email");
                     userService.addUser(new User(userId, name, email));
                     break;
 
@@ -59,8 +60,8 @@ public class Main {
                     break;
 
                 case 8:
-                    String borrowUserId = InputUtils.getString("Input user id");
-                    String borrowBookId = InputUtils.getString("Input book id");
+                    String borrowUserId = InputValidatorUtils.getValidId("Input user id borrow");
+                    String borrowBookId = InputValidatorUtils.getValidId("Input book id");
                     borrowService.borrowBook(borrowUserId, borrowBookId);
                     break;
 
@@ -68,8 +69,8 @@ public class Main {
                     borrowService.listBorrowBooks();
                     break;
                 case 10:
-                    String returnUserId = InputUtils.getString("Input user id");
-                    String returnBookId = InputUtils.getString("Input book Id");
+                    String returnUserId = InputValidatorUtils.getValidId("Input user id");
+                    String returnBookId = InputValidatorUtils.getValidId("Input book Id");
                     borrowService.returnBook(returnUserId, returnBookId);
                     break;
 

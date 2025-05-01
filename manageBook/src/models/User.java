@@ -1,9 +1,9 @@
 package models;
 
 public class User {
-    private String id;
-    private String name;
-    private String email;
+    private String id; // duy nhất, k được để trống
+    private String name; // k được để trống, giới hạn 100 ký tự
+    private String email; // đúng định dạng email, giới hạn 200 ký tự
 
 
     public User(String id, String name, String email) {

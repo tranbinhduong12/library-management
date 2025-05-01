@@ -1,11 +1,11 @@
 package models;
 
 public class Book {
-    private String id;
-    private String title;
-    private String author;
-    private boolean isBorrowed;
-    private int quantity;
+    private String id; // duy nhất, k được để trống
+    private String title; // không được để trống, giới hạn 200 ký tự
+    private String author; // không được để trống, giới hạn 100 ký tự
+//    private boolean isBorrowed;
+    private int quantity; // số nguyên và > 0, giới hạn 100
 
     public Book(String id, String title, String author, int quantity) {
         this.id = id;
@@ -35,12 +35,12 @@ public class Book {
         this.author = author;
     }
 
-    public boolean isBorrowed() {
-        return isBorrowed;
-    }
-    public void setBorrow(boolean borrowed) {
-        isBorrowed = borrowed;
-    }
+//    public boolean isBorrowed() {
+//        return isBorrowed;
+//    }
+//    public void setBorrow(boolean borrowed) {
+//        isBorrowed = borrowed;
+//    }
 
 
     public int getQuantity() {

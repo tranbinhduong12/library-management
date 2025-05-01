@@ -1,11 +1,12 @@
 package models;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class BorrowRecord {
     private User user;
     private Book book;
-    private LocalDate borrowDate;
+    private LocalDate borrowDate; // định dang "dd/mm/yyyy"
 
     public BorrowRecord(User user, Book book) {
         this.user = user;
@@ -39,6 +40,7 @@ public class BorrowRecord {
 
     @Override
     public String toString() {
-        return user.getName() + " đang mượn sách \"" + book.getTitle() + "\" từ ngày " + borrowDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return user.getName() + " đang mượn sách \"" + book.getTitle() + "\" từ ngày " + borrowDate.format(formatter);
     }
 }
