@@ -13,7 +13,7 @@ public class Main {
         BookService bookService = new BookService();
         UserService userService = new UserService();
         List<BorrowRecord> borrowRecords = new ArrayList<>();
-        BorrowService borrowService = new BorrowService(userService, bookService, borrowRecords);
+        BorrowService borrowService = new BorrowService(userService, bookService);
 
         while (true) {
             showMenu();
@@ -66,14 +66,20 @@ public class Main {
                     break;
 
                 case 9:
-                    borrowService.listBorrowBooks();
-                    break;
-                case 10:
                     String returnUserId = InputValidatorUtils.getValidId("Input user id");
                     String returnBookId = InputValidatorUtils.getValidId("Input book Id");
                     borrowService.returnBook(returnUserId, returnBookId);
                     break;
-
+                case 10:
+                    bookService.listOutOfStockBook();
+                    break;
+                case 11:
+                    String userIdBorrow = InputValidatorUtils.getValidId("Input user id");
+                    borrowService.viewHistoryByUserId(userIdBorrow);
+                    break;
+                case 12:
+                    borrowService.viewAllBorrowHistory();
+                    break;
                 case 0:
                     System.out.println("Exit");
                     return;
@@ -95,8 +101,10 @@ public class Main {
         System.out.println("6. Add user");
         System.out.println("7. List users");
         System.out.println("8. Borrow book");
-        System.out.println("9. History borrow books");
-        System.out.println("10. Return book");
+        System.out.println("9. Return book");
+        System.out.println("10. Danh sách sách đã hết");
+        System.out.println("11. History borrow books 1 user");
+        System.out.println("12. History borrow book all user");
         System.out.println("0. Exit");
         System.out.println("------------------------");
     }

@@ -59,6 +59,7 @@ public class BookService {
         }
     }
 
+    // mượn sách 
     public Book findById(String id) {
         for (Book book : books) {
             if (book.getId().equals(id)) {
@@ -66,6 +67,20 @@ public class BookService {
             }
         }
         return null;
+    }
+
+    // Hiển thị sách đã hết
+    public void listOutOfStockBook() {
+        boolean found = false;
+        for (Book book : books) {
+            if (book.getQuantity() == 0) {
+                System.out.println(book);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Hiện tại không có sách nào đã hết");
+        }
     }
 
 }
