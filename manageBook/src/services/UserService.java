@@ -2,6 +2,8 @@ package services;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import models.BorrowRecord;
 import models.User;
 
 public class UserService {
@@ -34,12 +36,23 @@ public class UserService {
 
     }
 
-    public void deleteUser(String id) {
-        for (User u : users) {
-            if (u.getId().equals(id)) {
-                users.remove(u);
-            }
+    public void deleteUser(String userId, List<BorrowRecord> currentRecords) {
+        User user = findById(userId);
+        if (user == null) {
+            System.out.println("Can not find user with id: " +userId);
+            return;
         }
+
+        boolean isBorrowing = currentRecords.stream()
+                .anyMatch(r -> r.getUser().getId().equals(userId));
+
+        if (isBorrowing) {
+            System.out.println("Can not find user, because borrowing");
+            return;
+        }
+
+        users.remove(user);
+        System.out.println("delete success user: " +user.getName());
     }
 
     public void searchUser(String keyword) {

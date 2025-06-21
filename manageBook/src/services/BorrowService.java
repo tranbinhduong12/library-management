@@ -38,7 +38,7 @@ public class BorrowService {
             return;
         }
 
-        BorrowRecord record = new BorrowRecord(user, book, LocalDate.now(), null);
+        BorrowRecord record = new BorrowRecord(user, book);
         currentRecords.add(record);
         book.borrow();
         System.out.println("Mượn sách thành công");
@@ -57,10 +57,10 @@ public class BorrowService {
         }
 
         if (found != null) {
-            currentRecords.remove(found);
-            found.setReturnDate(LocalDate.now());
-            historyRecords.add(found);
-            found.getBook().returnBook();
+            currentRecords.remove(found); // xóa khỏi danh sách mượn
+            found.setReturnDate(LocalDate.now()); // gán ngày trả
+            historyRecords.add(found); // thêm vào lịch sử
+            found.getBook().returnBook(); // cập nhật số lượng sách
             System.out.println("Trả sách thành công " + found.getBook().getTitle());
         } else {
             System.out.println("Không tìm thấy bản ghi phù hợp");
@@ -71,6 +71,7 @@ public class BorrowService {
     public void viewHistoryByUserId(String userId) {
         boolean hasBorrow = false;
 
+        // Lọc các bản ghi có id người dùng đúng, gom lại thành danh sách mới
         List<BorrowRecord> current = currentRecords.stream()
                 .filter(record -> record.getUser().getId().equals(userId)).toList();
 
@@ -111,6 +112,26 @@ public class BorrowService {
         for (BorrowRecord recor : historyRecords) {
             System.out.println(recor);
         }
+    }
+
+    // danh sách book đang mượn
+    public void viewCurrentBorrowedBoods() {
+        if (currentRecords.isEmpty()) {
+            System.out.println("Hiện không có sách nào đang được mượn.");
+            return;
+        }
+
+        System.out.println("\n--- Danh sách sách đang được mượn ---");
+        for (BorrowRecord record : currentRecords) {
+            System.out.println("-Người dùng: " + record.getUser().getName()
+            + " | Sách: " + record.getBook().getTitle()
+            + " | Ngày mượn: " + record.getBorrowDate());
+        }
+    }
+
+    // trả về các bản ghi mượn sách hiện tại
+    public List<BorrowRecord> getCurrentRecords() {
+        return currentRecords;
     }
 
     // debug

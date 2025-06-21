@@ -9,11 +9,20 @@ public class BorrowRecord {
     private LocalDate borrowDate; // định dang "dd/mm/yyyy"
     private LocalDate returnDate;
 
-    public BorrowRecord(User user, Book book, LocalDate borrowDate, LocalDate returnDate) {
+    private String bookId;
+    private String bookTitle;
+    private String userId;
+    private String userName;
+
+    public BorrowRecord(User user, Book book) {
         this.user = user;
         this.book = book;
-        this.borrowDate = borrowDate;
-        this.returnDate = returnDate;
+        this.userId = user.getId();
+        this.userName = user.getName();
+        this.bookId = book.getId();
+        this.bookTitle = book.getTitle();
+        this.borrowDate = LocalDate.now();
+        this.returnDate = null;
     }
 
     public User getUser() {
@@ -45,7 +54,7 @@ public class BorrowRecord {
     }
 
     public void setReturnDate(LocalDate returnDate) {
-        this.returnDate = returnDate;
+        this.returnDate = LocalDate.now();
     }
 
     @Override

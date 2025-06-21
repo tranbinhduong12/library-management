@@ -3,6 +3,7 @@ package utils;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+//validate các kiểu dữ liệu
 public class InputUtils {
     private static final Scanner sc = new Scanner(System.in);
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");

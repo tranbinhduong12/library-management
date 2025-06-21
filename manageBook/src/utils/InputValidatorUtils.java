@@ -1,5 +1,6 @@
 package utils;
 
+// validate các fileds
 public class InputValidatorUtils {
     public static String getValidId(String message) {
         while (true) {
